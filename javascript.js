@@ -37,3 +37,34 @@ function playRound(playerChoice, computerChoice) {
         return `It's a tie.`
     }
 }
+
+function game() {
+    let computerScore = 0;
+    let playerScore = 0;
+    let tie = 0;
+    
+    for (let i = 0; i < 5; i ++) {
+        let result = playRound(prompt('Rock, paper or scissors?'), getComputerChoice());
+        console.log(result);
+        if (
+            result.includes('You lose')
+        ) {
+            computerScore++;
+            console.log('computer score +1');
+
+        } else if (
+           result.includes('You win')
+        ) {
+            playerScore++;
+            console.log('player score +1');
+        } else if (
+            result ===`It's a tie.`
+        ) {
+            tie++;
+        }
+    }
+    console.log(`Computer: ${computerScore}. \nPlayer: ${playerScore}. \nTies: ${tie}`)
+}
+
+game();
+
