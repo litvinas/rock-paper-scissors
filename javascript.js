@@ -1,15 +1,23 @@
 const buttons = document.querySelectorAll('button');
 const para = document.querySelector('p.round');
 const score = document.querySelector('p.score');
+const container = document.querySelector('.container');
+const allButtons = document.querySelector('.allButtons');
 
 let computerScore = 0;
 let playerScore = 0;
 
 score.textContent = `Player: ${playerScore} --- Computer: ${computerScore}`;
 
+const buttonPlayAgain = document.createElement('button');
+buttonPlayAgain.textContent = 'Play again?';
+
+buttonPlayAgain.addEventListener('click', () => location.reload());
+
 
 buttons.forEach((button) => {
     button.addEventListener('click', () => {
+
         playerChoice = button.classList.value;
         roundResult = playRound(playerChoice, getComputerChoice())
         if (roundResult.includes('You lose')) {
@@ -21,14 +29,18 @@ buttons.forEach((button) => {
         para.textContent = roundResult;
         score.textContent = `Player: ${playerScore} --- Computer: ${computerScore}`;
 
-        if (playerScore === 5) {
-            para.textContent = "You win the game!";
+        if (playerScore === 5 || computerScore === 5) {
             computerScore = 0;
             playerScore = 0;
-        } else if (computerScore === 5) {
-            para.textContent = "You lose the game!";
-            computerScore = 0;
-            playerScore = 0;
+            // container.setAttribute('style', 'pointer-events: none');
+            container.removeChild(allButtons);
+            container.appendChild(buttonPlayAgain);
+    
+            if (playerScore === 5) {
+                para.textContent = "You win the game!";
+            } else if (computerScore === 5) {
+                para.textContent = "You lose the game!";
+            }
         }
     });
 })
