@@ -1,3 +1,38 @@
+const buttons = document.querySelectorAll('button');
+const para = document.querySelector('p.round');
+const score = document.querySelector('p.score');
+
+let computerScore = 0;
+let playerScore = 0;
+
+score.textContent = `Player: ${playerScore} --- Computer: ${computerScore}`;
+
+
+buttons.forEach((button) => {
+    button.addEventListener('click', () => {
+        playerChoice = button.classList.value;
+        roundResult = playRound(playerChoice, getComputerChoice())
+        if (roundResult.includes('You lose')) {
+            computerScore++;
+        }
+        if (roundResult.includes('You win')) {
+            playerScore++;
+        }
+        para.textContent = roundResult;
+        score.textContent = `Player: ${playerScore} --- Computer: ${computerScore}`;
+
+        if (playerScore === 5) {
+            para.textContent = "You win the game!";
+            computerScore = 0;
+            playerScore = 0;
+        } else if (computerScore === 5) {
+            para.textContent = "You lose the game!";
+            computerScore = 0;
+            playerScore = 0;
+        }
+    });
+})
+
 function getComputerChoice() {
     let num = Math.floor(Math.random()*3);
     switch(num){
@@ -37,34 +72,4 @@ function playRound(playerChoice, computerChoice) {
         return `It's a tie.`
     }
 }
-
-function game() {
-    let computerScore = 0;
-    let playerScore = 0;
-    let tie = 0;
-    
-    for (let i = 0; i < 5; i ++) {
-        let result = playRound(prompt('Rock, paper or scissors?'), getComputerChoice());
-        console.log(result);
-        if (
-            result.includes('You lose')
-        ) {
-            computerScore++;
-            console.log('computer score +1');
-
-        } else if (
-           result.includes('You win')
-        ) {
-            playerScore++;
-            console.log('player score +1');
-        } else if (
-            result ===`It's a tie.`
-        ) {
-            tie++;
-        }
-    }
-    console.log(`Computer: ${computerScore}. \nPlayer: ${playerScore}. \nTies: ${tie}`)
-}
-
-game();
 
