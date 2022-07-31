@@ -3,21 +3,23 @@ const para = document.querySelector('p.round');
 const score = document.querySelector('p.score');
 const container = document.querySelector('.container');
 const allButtons = document.querySelector('.allButtons');
+const h2 = document.querySelector('h2');
 
 let computerScore = 0;
 let playerScore = 0;
 
-score.textContent = `Player: ${playerScore} --- Computer: ${computerScore}`;
+score.textContent = `${playerScore} : ${computerScore}`;
 
 const buttonPlayAgain = document.createElement('button');
 buttonPlayAgain.textContent = 'Play again?';
+buttonPlayAgain.classList.add('play-again-button');
 
 buttonPlayAgain.addEventListener('click', () => location.reload());
 
 
 buttons.forEach((button) => {
-    button.addEventListener('click', () => {
 
+    button.addEventListener('click', () => {
         playerChoice = button.classList.value;
         roundResult = playRound(playerChoice, getComputerChoice())
         if (roundResult.includes('You lose')) {
@@ -27,22 +29,24 @@ buttons.forEach((button) => {
             playerScore++;
         }
         para.textContent = roundResult;
-        score.textContent = `Player: ${playerScore} --- Computer: ${computerScore}`;
+        score.textContent = `${playerScore} : ${computerScore}`;
 
-        if (playerScore === 5 || computerScore === 5) {
-            computerScore = 0;
-            playerScore = 0;
-            // container.setAttribute('style', 'pointer-events: none');
+        if (playerScore === 5) {
+            para.textContent = "You win the game!";
             container.removeChild(allButtons);
+            container.removeChild(h2);
             container.appendChild(buttonPlayAgain);
     
-            if (playerScore === 5) {
-                para.textContent = "You win the game!";
-            } else if (computerScore === 5) {
-                para.textContent = "You lose the game!";
-            }
+        } else if (computerScore === 5) {
+            para.textContent = "You lose the game!";
+            container.removeChild(allButtons);
+            container.removeChild(h2);
+            container.appendChild(buttonPlayAgain);
         }
+        button.classList.add('clicked');
+        setTimeout(() => button.classList.remove('clicked'), 100);
     });
+    
 })
 
 function getComputerChoice() {
@@ -65,23 +69,23 @@ function playRound(playerChoice, computerChoice) {
     playerChoice = playerChoice[0].toUpperCase() + playerChoice.slice(1).toLowerCase();
 
     if (playerChoice === 'Rock' && computerChoice === 'Paper') {
-        return `You lose, paper beats rock!`;
+        return `You: 🧻. PC: 🪨 : You lose.`;
     } else if (playerChoice === 'Rock' && computerChoice === 'Rock') {
-        return `It's a tie.`;
+        return `You: 🪨. PC: 🪨 : It's a tie.`;
     } else if (playerChoice === 'Rock' && computerChoice === 'Scissors') {
-        return `You win. Rock beats scissors.`;
+        return `You: 🪨. PC: ✂️ : You win.`;
     } else if (playerChoice === 'Paper' && computerChoice === 'Rock') {
-        return `You win, paper beats rock!`;
+        return `You: 🧻. PC: 🪨 : You win.`;
     } else if (playerChoice === 'Paper' && computerChoice === 'Paper') {
-        return `It's a tie.`;
+        return `You: 🧻. PC: 🧻 : It's a tie.`;
     } else if (playerChoice === 'Paper' && computerChoice === 'Scissors') {
-        return `You lose. scissors beat paper.`;
+        return `You: 🧻. PC: ✂️ : You lose.`;
     } else if (playerChoice === 'Scissors' && computerChoice === 'Rock') {
-        return `You lose. Rock beats scissors.`;
+        return `You: ✂️. PC: 🪨 : You lose.`;
     } else if (playerChoice === 'Scissors' && computerChoice === 'Paper') {
-        return `You win. Scissors beat Paper.`;
+        return `You: ✂️. PC: 🧻 : You win.`;
     } else if (playerChoice === 'Scissors' && computerChoice === 'Scissors') {
-        return `It's a tie.`
+        return `You: ✂️. PC: ✂️ : It's a tie.`
     }
 }
 
